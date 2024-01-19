@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Simulator</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="wrapper">
+            <div class="header__inner-block">
+                <h1>Word Simulator</h1>
+                <ul class="sorting__order-list">
+                    <li class="sorting__order-tab">
+                        <button type="button"  data-category="nouns">Существительные</button>
+                    </li>
+                    <li class="sorting__order-tab">
+                        <button type="button" data-category="verbs">Глаголы</button>
+                    </li>
+                    <li class="sorting__order-tab">
+                        <button type="button" data-category="adjectives">Прилагательные</button>
+                    </li>
+                    <li class="sorting__order-tab">
+                        <button type="button" data-category="other">Разное</button>
+                    </li>
+                </ul>
+
+                <ul class="language-list">
+                    <li class="language">
+                        <button class="rus" type="button" data-language="rus">Ru</button>
+                    </li>
+                    <li class="language">
+                        <button class="iz" type="button" data-language="iz">Iz</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="wrapper">
+            <div class="word-block">
+                <h2>Выберете категорию и язык</h2>
+                <p class="rus-word"></p>
+                <p class="iz-word iz-word--hide"></p>
+            </div>
+            <ul class="action-list" style="display: none;">
+                <li class="action-list__action">
+                    <button class="translate-btn" type="button">Перевод</button>
+                  </li>
+                  <li class="action-list__action">
+                    <button class="next-word" type="button">Дальше</button>
+                  </li>
+            </ul>
+        </div>
+        
+        <button class="add-new-word" type="button">
+            <svg fill="none" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 45 45">
+                <g>
+                    <path d="M41.267,18.557H26.832V4.134C26.832,1.851,24.99,0,22.707,0c-2.283,0-4.124,1.851-4.124,4.135v14.432H4.141
+                        c-2.283,0-4.139,1.851-4.138,4.135c-0.001,1.141,0.46,2.187,1.207,2.934c0.748,0.749,1.78,1.222,2.92,1.222h14.453V41.27
+                        c0,1.142,0.453,2.176,1.201,2.922c0.748,0.748,1.777,1.211,2.919,1.211c2.282,0,4.129-1.851,4.129-4.133V26.857h14.435
+                        c2.283,0,4.134-1.867,4.133-4.15C45.399,20.425,43.548,18.557,41.267,18.557z" fill="#ffffff"/>
+                </g>
+            </svg>
+        </button>
+
+        <div class="overlay">
+            <div class="modal">
+                <button class="modal__close-btn" type="button">Закрыть</button>
+                
+
+                <ul class="modal-trigges">
+                    <li class="modal-triggers__trigger js-active">Добавить существительное</li>
+                    <li class="modal-triggers__trigger">Добавить глагол</li>
+                    <li class="modal-triggers__trigger">Добавить прилагательное</li>
+                    <li class="modal-triggers__trigger">Добавить другое</li>
+                </ul>
+
+                <ul class="tabs">
+                    <li class="tabs__tab">
+                        <form id="mars-once" action="/apply/" method="POST">
+                            <label>
+                              Ваше имя:
+                              <input type="text" name="name" id="name" placeholder="Илон Маск" required autofocus>
+                            </label>
+                          
+                            <label>
+                              Почта:
+                              <input type="email" name="email" id="email" placeholder="elon@musk.com" required>
+                            </label>
+                          
+                            <label>
+                              Возраст:
+                              <input type="number" name="age" required>
+                            </label>
+                          
+                            <label>
+                              Профессия:
+                              <select name="specialization" required>
+                                <option value="engineer" selected>Инженер</option>
+                                <option value="scientist">Учёный</option>
+                                <option value="psychologist">Психолог</option>
+                                <option value="other">Другая</option>
+                              </select>
+                            </label>
+                          
+                            <label>
+                              Я работал в NASA
+                              <input type="checkbox" name="nasa-experience" value="1">
+                            </label>
+                          
+                            <label>
+                              Фото:
+                              <input type="file" accept="image/jpeg" name="photo" required>
+                            </label>
+                          
+                            <button type="submit">Отправить заявку</button>
+                          </form>
+                    </li>
+                    <!-- Сущ -->
+                    <li class="tabs__tab">
+                        <form class="add-word-form" id="add-noun">
+                            <fieldset class="add-word-form__fieldset">
+                                <div class="add-word-form__input-block">
+                                    <input id="part-of-speech" name="part-of-speech"type="text" value="Существительное" required="">
+                                    <label for="part-of-speech">Часть речи</label>
+                                </div>
+                                <div class="add-word-form__input-block">
+                                    <input id="word" name="word"type="text" value="" required>
+                                    <label for="word">Слово</label>
+                                </div>
+                                <div class="add-word-form__input-block">
+                                    <input id="genus" name="genus"type="text" value="" required>
+                                    <label for="genus">Род</label>
+                                </div>
+                                <div class="add-word-form__input-block">
+                                    <input id="singular" name="singular"type="text" value="" required>
+                                    <label for="singular">Единственное число</label>
+                                </div>
+                                <div class="add-word-form__input-block">
+                                    <input id="singular-read" name="singular-read"type="text" value="" required>
+                                    <label for="singular-read">Читается в ед.числе</label>
+                                </div>
+                                <div class="add-word-form__input-block">
+                                    <input id="plural" name="plural"type="text" value="" required>
+                                    <label for="plural">Множественное число</label>
+                                </div>
+                                <div class="add-word-form__input-block">
+                                    <input id="plural-read" name="plural-read"type="text" value="" required>
+                                    <label for="plural-read">Читается в мн.числе</label>
+                                </div>
+                            </fieldset>
+                            <button class="add-word-form__submit">Добавить</button>
+                        </form>
+                    </li>
+                    <!-- Глаг -->
+                    <li class="tabs__tab">
+                        <form class="add-word-form" id="add-verb">
+                            <fieldset class="add-word-form__fieldset">
+                                <div class="add-word-form__input-block">
+                                    <input id="part-of-speech" name="part-of-speech" type="text" value="Глагол" required="">
+                                    <label for="part-of-speech">Часть речи</label>
+                                </div>
+                                <div class="add-word-form__input-block" style="grid-column: 1 / -1;">
+                                    <input id="word" name="word"type="text" value="" required="">
+                                    <label for="word">Слово</label>
+                                </div>
+                                <div class="add-word-form__input-block">
+                                    <input id="infinitive" name="infinitive" type="text" value="" required="">
+                                    <label for="infinitive">Инфинитив</label>
+                                </div>
+                                <div class="add-word-form__input-block">
+                                    <input id="infinitive-read" name="infinitive-read" type="text" value="" required="">
+                                    <label for="infinitive-read">Читается</label>
+                                </div>
+                                <!--  -->
+                                <div class="add-word-form__input-block">
+                                    <input id="m-genus-singular" name="m-genus-singular" type="text" value="" required="">
+                                    <label for="m-genus-singular">Муж. род ед. число</label>
+                                </div>
+                                <div class="add-word-form__input-block">
+                                    <input id="m-genus-singular-read" name="m-genus-singular-read"type="text" value="" required="">
+                                    <label for="m-genus-singular-read">Читается</label>
+                                </div>
+                                <!--  -->
+                                <div class="add-word-form__input-block">
+                                    <input id="m-genus-plural" name="m-genus-plural" type="text" value="" required="">
+                                    <label for="m-genus-plural">Муж. род мн. число</label>
+                                </div>
+                                <div class="add-word-form__input-block">
+                                    <input id="m-genus-plural-read" name="m-genus-plural-read"type="text" value="" required="">
+                                    <label for="m-genus-plural-read">Читается</label>
+                                </div>
+                                <!--  -->
+                                <div class="add-word-form__input-block">
+                                    <input id="f-genus-singular" name="f-genus-singular" type="text" value="" required="">
+                                    <label for="f-genus-singular">Жен. род ед. число</label>
+                                </div>
+                                <div class="add-word-form__input-block">
+                                    <input id="f-genus-singular-read" name="f-genus-singular-read"type="text" value="" required="">
+                                    <label for="f-genus-singular-read">Читается</label>
+                                </div>
+                                <div class="add-word-form__input-block">
+                                    <input id="f-genus-plural" name="f-genus-plural" type="text" value="" required="">
+                                    <label for="f-genus-plural">Жен. род мн. число</label>
+                                </div>
+                                <div class="add-word-form__input-block">
+                                    <input id="f-genus-plural-read" name="f-genus-plural-read"type="text" value="" required="">
+                                    <label for="f-genus-plural-read">Читается</label>
+                                </div>
+                            </fieldset>
+                            <button class="add-word-form__submit" type="button">Добавить</button>
+                        </form>
+                    </li>
+                    <!-- Прил -->
+                    <li class="tabs__tab">
+                        <form class="add-word-form" id="add-adjective">
+                            <fieldset class="add-word-form__fieldset">
+                                <div class="add-word-form__input-block">
+                                    <input id="part-of-speech" name="part-of-speech"type="text" value="Прилагательное" required="">
+                                    <label for="part-of-speech">Часть речи</label>
+                                </div>
+                                <div class="add-word-form__input-block" style="grid-column: 1 / -1;">
+                                    <input id="word" name="word"type="text" value="" required>
+                                    <label for="word">Слово</label>
+                                </div>
+                                <div class="add-word-form__input-block">
+                                    <input id="m-genus" name="m-genus"type="text" value="" required>
+                                    <label for="m-genus">Муж. род</label>
+                                </div>
+                                <div class="add-word-form__input-block">
+                                    <input id="m-genus-read" name="m-genus-read"type="text" value="" required>
+                                    <label for="m-genus-read">Читается в муж. роде</label>
+                                </div>
+                                <div class="add-word-form__input-block">
+                                    <input id="f-genus" name="f-genus"type="text" value="" required>
+                                    <label for="f-genus">Жен. род</label>
+                                </div>
+                                <div class="add-word-form__input-block">
+                                    <input id="f-genus-read" name="f-genus-read"type="text" value="" required>
+                                    <label for="f-genus-read">Читается в жен. роде</label>
+                                </div>
+                            </fieldset>
+                            <button class="add-word-form__submit" type="button">Добавить</button>
+                        </form>
+                    </li>
+                    <!-- Разное -->
+                    <li class="tabs__tab">
+                        <form class="add-word-form" id="add-other">
+                            <fieldset class="add-word-form__fieldset">
+                                <div class="add-word-form__input-block">
+                                    <input id="part-of-speech" name="part-of-speech"type="text" value="" required="">
+                                    <label for="part-of-speech">Часть речи</label>
+                                </div>
+                                <div class="add-word-form__input-block" style="grid-column: 1 / -1;">
+                                    <input id="word" name="word"type="text" value="" required="">
+                                    <label for="word">Слово</label>
+                                </div>
+                                <div class="add-word-form__input-block">
+                                    <input id="translate" name="translate"type="text" value="" required="">
+                                    <label for="translate-btn">Перевод</label>
+                                </div>
+                                <div class="add-word-form__input-block">
+                                    <input id="read" name="read"type="text" value="" required="">
+                                    <label for="read">Читается</label>
+                                </div>
+                            </fieldset>
+                            <button class="add-word-form__submit" type="submit">Добавить</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </main>
+    <script src="js/app.js"></script>
+</body>
+</html>
